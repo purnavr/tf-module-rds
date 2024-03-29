@@ -16,14 +16,14 @@ resource "aws_rds_cluster" "main" {
 
 }
 
-#resource "aws_rds_cluster_instance" "cluster_instances" {
-#  count              = 2
-#  identifier         = "${var.env}-rds-${count.index}"
-#  cluster_identifier = aws_rds_cluster.main.id
-#  instance_class     = "db.r4.large"
-#  engine             = aws_rds_cluster.main.engine
-#  engine_version     = aws_rds_cluster.main.engine_version
-#}
+resource "aws_rds_cluster_instance" "main" {
+  count              = var.no_of_instances
+  identifier         = "${var.env}-rds-${count.index}"
+  cluster_identifier = aws_rds_cluster.main.id
+  instance_class     = var.instance_class
+  engine             = aws_rds_cluster.main.engine
+  engine_version     = aws_rds_cluster.main.engine_version
+}
 
 resource "aws_db_subnet_group" "main" {
   name       = "${var.env}-rds"
